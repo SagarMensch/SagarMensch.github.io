@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THOUGHTS.CO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #f4e8d0 0%, #e8d5b7 100%);
+            min-height: 100vh;
+            color: #2c1810;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin-top: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #d4741a;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d4741a;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #2c1810;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: #d4741a;
+        }
+
+        nav a.active {
+            color: #d4741a;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d4741a;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #8b6914;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .breadcrumb a {
+            color: #8b6914;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: #d4741a;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #2c1810;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .intro-text {
+            font-size: 16px;
+            margin-bottom: 40px;
+            color: #4a3728;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(212, 116, 26, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(212, 116, 26, 0.2);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: #d4741a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .category-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c1810;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .category-desc {
+            font-size: 14px;
+            color: #4a3728;
+            line-height: 1.6;
+        }
+
+        .featured-section {
+            background: linear-gradient(135deg, #d4741a 0%, #b8631b 100%);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
+
+        .featured-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .featured-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .featured-list {
+            list-style: none;
+        }
+
+        .featured-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .featured-list li:hover {
+            padding-left: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .featured-number {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .featured-illustration {
+            width: 250px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tagline {
+            font-style: italic;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .standards-section h2 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .blog-posts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .blog-post {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(212, 116, 26, 0.1);
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(212, 116, 26, 0.15);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .post-date {
+            color: #d4741a;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .post-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #2c1810;
+        }
+
+        .post-excerpt {
+            color: #4a3728;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: rgba(212, 116, 26, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #d4741a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .write-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #d4741a;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(212, 116, 26, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .write-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(212, 116, 26, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 50px;
+            border-top: 2px solid #d4741a;
+            color: #8b6914;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            nav ul {
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .featured-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .featured-illustration {
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">THOUGHTS.CO</div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">HOME</a></li>
+                    <li><a href="#">ABOUT</a></li>
+                    <li><a href="#">CATEGORIES</a></li>
+                    <li><a href="#">ARCHIVE</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="#">HOME</a> > <a href="#">BLOG</a> > INSIGHTS & ANALYSIS
+        </div>
+
+        <h1>INSIGHTS & ANALYSIS</h1>
+
+        <p class="intro-text">
+            Exploring the intersection of finance, artificial intelligence, business strategy, and machine learning. 
+            Deep dives into market trends, technological innovations, and the evolving landscape of modern business.
+        </p>
+
+        <div class="categories">
+            <div class="category-card" onclick="filterPosts('finance')">
+                <div class="category-icon">💰</div>
+                <div class="category-title">Financial Markets</div>
+                <div class="category-desc">
+                    Market analysis, investment strategies, economic trends, and financial technology innovations 
+                    shaping the future of finance.
+                </div>
+            </div>
+
+            <div class="category-card" onclick="filterPosts('ai')">
+                <div class="category-icon">🤖</div>
+                <div class="category-title">Artificial Intelligence</div>
+                <div class="category-desc">
+                    Exploring AI breakthroughs, machine learning applications, and the transformative impact 
+                    of artificial intelligence across industries.
+                </div>
+            </div>
+
+            <div class="category-card" onclick="filterPosts('business')">
+                <div class="category-icon">📊</div>
+                <div class="category-title">Business Strategy</div>
+                <div class="category-desc">
+                    Strategic insights, market dynamics, startup ecosystems, and innovative business models 
+                    driving growth and disruption.
+                </div>
+            </div>
+        </div>
+
+        <div class="featured-section">
+            <div class="featured-content">
+                <div>
+                    <div class="tagline">Curated Insights. Expert Analysis. Forward Thinking.</div>
+                    
+                    <ul class="featured-list">
+                        <li>
+                            <span class="featured-number">01</span>
+                            <span>Data-Driven Investment Strategies</span>
+                        </li>
+                        <li>
+                            <span class="featured-number">02</span>
+                            <span>AI-Powered Business Transformation</span>
+                        </li>
+                        <li>
+                            <span class="featured-number">03</span>
+                            <span>Emerging Market Opportunities</span>
+                        </li>
+                        <li>
+                            <span class="featured-number">04</span>
+                            <span>Machine Learning in Finance</span>
+                        </li>
+                    </ul>
+
+                    <div class="standards-section">
+                        <h2>ALL CONTENT IS RESEARCHED, ANALYZED, AND CRAFTED FOR MAXIMUM INSIGHT</h2>
+                    </div>
+                </div>
+                <div class="featured-illustration">📈</div>
+            </div>
+        </div>
+
+        <div class="blog-posts" id="blogPosts">
+            <article class="blog-post" data-category="ai">
+                <div class="post-date">June 28, 2025</div>
+                <div class="post-title">The Rise of Autonomous AI Agents in Financial Trading</div>
+                <div class="post-excerpt">
+                    Exploring how advanced AI systems are revolutionizing algorithmic trading, from high-frequency trading 
+                    to portfolio management, and what this means for the future of financial markets.
+                </div>
+                <div class="post-tags">
+                    <span class="tag">AI</span>
+                    <span class="tag">Finance</span>
+                    <span class="tag">Trading</span>
+                </div>
+            </article>
+
+            <article class="blog-post" data-category="business">
+                <div class="post-date">June 26, 2025</div>
+                <div class="post-title">Disrupting Traditional Business Models with ML</div>
+                <div class="post-excerpt">
+                    How machine learning is enabling companies to create entirely new business models, 
+                    optimize operations, and deliver personalized customer experiences at scale.
+                </div>
+                <div class="post-tags">
+                    <span class="tag">ML</span>
+                    <span class="tag">Business</span>
+                    <span class="tag">Innovation</span>
+                </div>
+            </article>
+
+            <article class="blog-post" data-category="finance">
+                <div class="post-date">June 24, 2025</div>
+                <div class="post-title">DeFi 2.0: The Evolution of Decentralized Finance</div>
+                <div class="post-excerpt">
+                    Analyzing the next generation of decentralized finance protocols, yield farming strategies, 
+                    and the regulatory landscape shaping the future of crypto finance.
+                </div>
+                <div class="post-tags">
+                    <span class="tag">DeFi</span>
+                    <span class="tag">Crypto</span>
+                    <span class="tag">Finance</span>
+                </div>
+            </article>
+
+            <article class="blog-post" data-category="ai">
+                <div class="post-date">June 22, 2025</div>
+                <div class="post-title">Large Language Models in Investment Research</div>
+                <div class="post-excerpt">
+                    How investment firms are leveraging LLMs for research automation, sentiment analysis, 
+                    and generating actionable market insights from vast amounts of financial data.
+                </div>
+                <div class="post-tags">
+                    <span class="tag">LLM</span>
+                    <span class="tag">Research</span>
+                    <span class="tag">Investment</span>
+                </div>
+            </article>
+
+            <article class="blog-post" data-category="business">
+                <div class="post-date">June 20, 2025</div>
+                <div class="post-title">The Subscription Economy: Beyond SaaS</div>
+                <div class="post-excerpt">
+                    Exploring how subscription models are expanding beyond software into physical products, 
+                    services, and experiences, and what this means for customer lifetime value.
+                </div>
+                <div class="post-tags">
+                    <span class="tag">Business Model</span>
+                    <span class="tag">SaaS</span>
+                    <span class="tag">Strategy</span>
+                </div>
+            </article>
+
+            <article class="blog-post" data-category="finance">
+                <div class="post-date">June 18, 2025</div>
+                <div class="post-title">ESG Investing in the Age of Climate Tech</div>
+                <div class="post-excerpt">
+                    Analyzing the intersection of environmental, social, and governance investing with 
+                    emerging climate technologies and their potential for generating sustainable returns.
+                </div>
+                <div class="post-tags">
+                    <span class="tag">ESG</span>
+                    <span class="tag">Climate Tech</span>
+                    <span class="tag">Investing</span>
+                </div>
+            </article>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 THOUGHTS.CO - Insights for the Modern Mind</p>
+        </footer>
+    </div>
+
+    <a href="#" class="write-button" onclick="openEditor()">✍ WRITE</a>
+
+    <script>
+        function filterPosts(category) {
+            const posts = document.querySelectorAll('.blog-post');
+            posts.forEach(post => {
+                if (category === 'all' || post.dataset.category === category) {
+                    post.style.display = 'block';
+                    post.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        }
+
+        function openEditor() {
+            // You can implement a modal or redirect to an editor page
+            alert('Blog editor would open here! You can integrate this with a CMS or create a custom editor.');
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.category-card, .blog-post');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+
+        // Add typing effect to the main title
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            
+            type();
+        }
+
+        // Initialize typing effect on load
+        window.addEventListener('load', () => {
+            const title = document.querySelector('h1');
+            const originalText = title.textContent;
+            typeWriter(title, originalText, 80);
+        });
+    </script>
+</body>
+</html>
